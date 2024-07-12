@@ -1,0 +1,22 @@
+Build a Federated Machine Learning framework for QML. 
+
+You are welcome to adapt any existing Federated Tools to the purposes of Quantum Computing.
+
+You should be able to successfully train QML models – at least simple ones - 
+using the federated learning framework of your choice or design.
+
+Develop QML models and algorithms to handle high-dimensional data, such as images or genomics datasets.
+
+It is highly encouraged to present your results using Jupyter notebooks with actual experiments 
+and an explanation of each step.
+
+Bonus prizes will be awarded for excellence in achieving the extra milestones below:
+
+● Architecture is deployable on the cloud: $100
+
+● The model can handle high dimensional data sets such as MRI images: $200
+
+● The Federated Framework includes other PETs such as Homomorphic Encryption: $300
+
+● The Federated Framework is multimodal i.e. it can handle more than one data
+modality during the training: $400
