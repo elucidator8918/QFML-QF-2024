@@ -1,1 +1,4 @@
-Notebooks
+data
+*.pkl
+results
+cifar_fl.pt

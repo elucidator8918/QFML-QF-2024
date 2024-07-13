@@ -1,0 +1,17 @@
+tqdm
+numpy
+ray>=2.3.0
+matplotlib
+pillow
+scikit-learn
+seaborn
+pandas
+opacus
+pyyaml
+tenseal
+
+--index-url https://download.pytorch.org/whl/cpu
+
+torch
+torchvision
+torchaudio

@@ -9,3 +9,6 @@ pandas
 opacus
 pyyaml
 tenseal
+torch
+torchvision
+torchaudio
