@@ -9,6 +9,7 @@ pandas
 opacus
 pyyaml
 tenseal
+kaggle
 
 --index-url https://download.pytorch.org/whl/cpu
 

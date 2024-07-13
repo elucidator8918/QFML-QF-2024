@@ -9,6 +9,7 @@ pandas
 opacus
 pyyaml
 tenseal
+kaggle
 torch
 torchvision
 torchaudio
