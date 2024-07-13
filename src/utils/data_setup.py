@@ -48,9 +48,9 @@ def read_and_prepare_data(file_path, size=6, model_name='all-MiniLM-L6-v2'):
     # Prepare data for modeling
     texts = data['texts'].tolist()
     y_data = data.iloc[:, 0].values
-    model = SentenceTransformer(model_name)
-    embeddings = model.encode(texts, convert_to_tensor=True).cpu().numpy()
-    del model
+    embed_model = SentenceTransformer(model_name)
+    embeddings = embed_model.encode(texts, convert_to_tensor=True).cpu().numpy()
+    del embed_model
     return embeddings, y_data
 
 
