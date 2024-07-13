@@ -1,5 +1,6 @@
 tqdm
 numpy
+pennylane
 ray>=2.3.0
 matplotlib
 pillow
@@ -10,6 +11,7 @@ opacus
 pyyaml
 tenseal
 kaggle
+sentence_transformers
 
 --index-url https://download.pytorch.org/whl/cpu
 
