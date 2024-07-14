@@ -47,7 +47,7 @@ cd QFML-QF-2024
 conda create -n fed python=3.10.12 anaconda
 conda init
 conda activate fed
-./run-cpu.sh
+bash run-cpu.sh
 ```
 
 #### For GPU
@@ -56,7 +56,7 @@ conda activate fed
 conda create -n fed python=3.10.12 anaconda
 conda init
 conda activate fed
-./run-gpu.sh
+bash run-gpu.sh
 ```
 
 ## Usage
