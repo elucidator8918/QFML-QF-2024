@@ -2,11 +2,12 @@ import streamlit as st
 import subprocess
 import os
 from PIL import Image
+import threading
+import queue
 
-def run_simulation():
+def run_simulation(output_queue, he, data_path, dataset, yaml_path, seed, num_workers, max_epochs, batch_size, length, split, device, number_clients, save_results, matrix_path, roc_path, model_save, min_fit_clients, min_avail_clients, min_eval_clients, rounds, frac_fit, frac_eval):
     command = [
-        'python', 'dashboard_src/dashboard_utils/simulation.py', 'simulation',
-        '--he',
+        'python', 'dashboard_src/simulation.py', 'simulation',
         '--data_path', data_path,
         '--dataset', dataset,
         '--yaml_path', yaml_path,
@@ -29,11 +30,19 @@ def run_simulation():
         '--frac_fit', str(frac_fit),
         '--frac_eval', str(frac_eval),
     ]
-
-    with st.spinner('Running simulation...'):
-        process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        stdout, stderr = process.communicate()
-        return stdout, stderr
+    
+    if he is not None:
+        command.extend(['--he', str(he)])
+    
+    process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
+    
+    for line in process.stdout:
+        output_queue.put(('stdout', line.strip()))
+    for line in process.stderr:
+        output_queue.put(('stderr', line.strip()))
+    
+    process.wait()
+    output_queue.put(('done', None))
 
 st.set_page_config(page_title="QFed-FHE", page_icon="🚀", layout="wide")
 
@@ -60,6 +69,7 @@ with st.sidebar.expander("🔢 Training Parameters"):
     device = st.text_input("Device", "cuda")
 
 with st.sidebar.expander("🌐 Federated Learning"):
+    he = st.selectbox("Homomorphic Encryption", [None, 1])
     number_clients = st.number_input("Number of Clients", 10)
     min_fit_clients = st.number_input("Min Fit Clients", 10)
     min_avail_clients = st.number_input("Min Avail Clients", 10)
@@ -74,7 +84,36 @@ with st.sidebar.expander("💾 Save Options"):
     roc_path = st.text_input("ROC Path", "roc.png")
 
 if st.sidebar.button("🏃‍♂️ Run Simulation", key="run_simulation"):
-    stdout, stderr = run_simulation()
+    output_queue = queue.Queue()
+    
+    thread = threading.Thread(target=run_simulation, args=(
+        output_queue, he, data_path, dataset, yaml_path, seed, num_workers, max_epochs, batch_size, length, split, device, number_clients, save_results, matrix_path, roc_path, model_save, min_fit_clients, min_avail_clients, min_eval_clients, rounds, frac_fit, frac_eval))
+    thread.start()
+
+    # Execution log
+    st.subheader("📜 Execution Log")
+    log_expander = st.expander("View Live Log", expanded=True)
+    
+    stdout_output = []
+    stderr_output = []
+    
+    with log_expander:
+        stdout_area = st.empty()
+        stderr_area = st.empty()
+        
+        while True:
+            try:
+                output_type, line = output_queue.get(timeout=0.1)
+                if output_type == 'stdout':
+                    stdout_output.append(line)
+                    stdout_area.text_area("Standard Output", "\n".join(stdout_output), height=200, disabled=True)
+                elif output_type == 'stderr':
+                    stderr_output.append(line)
+                    stderr_area.text_area("Standard Error", "\n".join(stderr_output), height=200, disabled=True)
+                elif output_type == 'done':
+                    break
+            except queue.Empty:
+                continue
 
     st.success("✅ Simulation finished successfully!")
 
@@ -96,10 +135,3 @@ if st.sidebar.button("🏃‍♂️ Run Simulation", key="run_simulation"):
             st.image(image, use_column_width=True)
         else:
             st.warning("ROC curve not generated.")
-
-    # Execution log
-    st.subheader("📜 Execution Log")
-    log_expander = st.expander("View Log", expanded=False)
-    with log_expander:
-        st.text_area("Standard Output", stdout.decode("utf-8"), height=200)
-        st.text_area("Standard Error", stderr.decode("utf-8"), height=200)
