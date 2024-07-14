@@ -61,6 +61,12 @@ bash run-gpu.sh
 
 ## Usage
 
+To use the quantum federated dashboard to view and run simulations, execute the following command:
+
+```python
+streamlit run dashboard.py
+```
+
 ### Running Experiments
 
 Choose the appropriate notebook based on your dataset and encryption preference:
