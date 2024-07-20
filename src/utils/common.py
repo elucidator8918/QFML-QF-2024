@@ -248,11 +248,8 @@ def save_matrix(y_true, y_pred, path, classes):
     :param path: path to save the confusion matrix
     :param classes: list of the classes
     """
-    # To get the confusion matrix
-    cf_matrix = confusion_matrix(y_true, y_pred, labels=list(classes))
-
-    # To normalize the confusion matrix
-    cf_matrix_normalized = cf_matrix / np.sum(cf_matrix) * 10
+    # To get the normalized confusion matrix
+    cf_matrix_normalized = confusion_matrix(y_true, y_pred, labels=classes, normalize='all')
 
     # To round up the values in the matrix
     cf_matrix_round = np.round(cf_matrix_normalized, 2)
