@@ -249,7 +249,7 @@ def save_matrix(y_true, y_pred, path, classes):
     :param classes: list of the classes
     """
     # To get the confusion matrix
-    cf_matrix = confusion_matrix(y_true, y_pred)
+    cf_matrix = confusion_matrix(y_true, y_pred, labels=list(classes))
 
     # To normalize the confusion matrix
     cf_matrix_normalized = cf_matrix / np.sum(cf_matrix) * 10
