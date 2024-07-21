@@ -4,7 +4,6 @@ Contains functionality for creating PyTorch DataLoaders for image classification
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader, random_split, TensorDataset
 from sklearn.model_selection import train_test_split
-from sentence_transformers import SentenceTransformer
 from .common import *
 
 NUM_WORKERS = os.cpu_count()
@@ -48,6 +47,7 @@ def read_and_prepare_data(file_path, size=6, model_name='all-MiniLM-L6-v2'):
     # Prepare data for modeling
     texts = data['texts'].tolist()
     y_data = data.iloc[:, 0].values
+    from sentence_transformers import SentenceTransformer
     embed_model = SentenceTransformer(model_name)
     embeddings = embed_model.encode(texts, convert_to_tensor=True).cpu().numpy()
     del embed_model
