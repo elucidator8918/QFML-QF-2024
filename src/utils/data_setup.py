@@ -51,6 +51,7 @@ def read_and_prepare_data(file_path, size=6, model_name='all-MiniLM-L6-v2'):
     embed_model = SentenceTransformer(model_name)
     embeddings = embed_model.encode(texts, convert_to_tensor=True).cpu().numpy()
     del embed_model
+    del SentenceTransformer
     return embeddings, y_data
 
 
