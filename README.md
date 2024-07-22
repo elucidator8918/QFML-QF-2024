@@ -10,6 +10,8 @@ Quantum Federated Learning - Quantum Federated Learning (QFL) combines the princ
 
 Secure Fully Homomorphic Encryption - Secure Fully Homomorphic Encryption (FHE) is a form of encryption that allows computations to be performed on encrypted data without needing to decrypt it first. This ensures that sensitive data remains private and secure even while being processed. By integrating FHE into the federated learning framework, we can ensure that model updates are encrypted throughout the entire process, maintaining privacy and security across all participants.
 
+A technical paper is coming soon! - Link - {WIP}
+
 The comprehensive results section can be seen:
 
 | **Model**                                                                                  | **Num Rounds** | **Num Clients** | **Dataset Used**        | **FHE Activated** | **Central Validation Accuracy** | **Loss** | **Training Accuracy** | **Simulation Time**        |
