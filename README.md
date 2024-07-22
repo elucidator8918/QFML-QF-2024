@@ -10,6 +10,17 @@ Quantum Federated Learning - Quantum Federated Learning (QFL) combines the princ
 
 Secure Fully Homomorphic Encryption - Secure Fully Homomorphic Encryption (FHE) is a form of encryption that allows computations to be performed on encrypted data without needing to decrypt it first. This ensures that sensitive data remains private and secure even while being processed. By integrating FHE into the federated learning framework, we can ensure that model updates are encrypted throughout the entire process, maintaining privacy and security across all participants.
 
+The comprehensive results section can be seen:
+
+| **Model**                                                                                  | **Num Rounds** | **Num Clients** | **Dataset Used**        | **FHE Activated** | **Central Validation Accuracy** | **Loss** | **Training Accuracy** | **Simulation Time**        |
+|--------------------------------------------------------------------------------------------|---------------|-----------------|-------------------------|-------------------|-------------------------------|---------|-----------------------|---------------------------|
+| [FHE-FedQNN-CIFAR](https://github.com/elucidator8918/QFML-QF-2024/blob/main/src/FHE_FedQNN_CIFAR.ipynb) | 20            | 10              | CIFAR-10                | Yes               | 70.12%                        | 1.24    | 99.1%                 | 9389.21 sec (156.5 min)   |
+| [FHE-FedQNN-DNA](https://github.com/elucidator8918/QFML-QF-2024/blob/main/src/FHE_FedQNN_DNA.ipynb)   | 20            | 10              | Human DNA Sequence      | Yes               | 85.7%                         | 0.48    | 87.2%                 | 10822.34 sec (180.4 min)  |
+| [FHE-FedQNN-MRI](https://github.com/elucidator8918/QFML-QF-2024/blob/main/src/FHE_FedQNN_MRI.ipynb)   | 20            | 10              | Brain MRI Scan          | Yes               | 88.75%                        | 0.36    | 99.6%                 | 7309.01 sec (121.8 min)   |
+| [Standard-FedQNN-CIFAR](https://github.com/elucidator8918/QFML-QF-2024/blob/main/src/Standard_FedQNN_CIFAR.ipynb) | 20            | 10              | CIFAR-10                | No                | 72.16%                        | 1.202   | 97.15%                | 9090.41 sec (151.5 min)   |
+| [Standard-FedQNN-DNA](https://github.com/elucidator8918/QFML-QF-2024/blob/main/src/Standard_FedQNN_DNA.ipynb)   | 20            | 10              | Human DNA Sequence      | No                | 84.2%                         | 0.43    | 85.5%                 | 10132.53 sec (168.9 min)  |
+| [Standard-FedQNN-MRI](https://github.com/elucidator8918/QFML-QF-2024/blob/main/src/Standard_FedQNN_MRI.ipynb)   | 20            | 10              | Brain MRI Scan          | No                | 89.71%                        | 0.338   | 100%                  | 7537.57 sec (125.6 min)   |
+
 ## Repository Structure
 
 ```
