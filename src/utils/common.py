@@ -103,7 +103,11 @@ def classes_string(name_dataset):
         classes = ('glioma', 'meningioma', 'notumor', 'pituitary')
 
     elif name_dataset == "DNA":
-        classes = ('0', '1', '2', '3', '4', '5', '6')        
+        classes = ('0', '1', '2', '3', '4', '5', '6') 
+
+    elif name_dataset == "PCOS":
+        classes = ('0', '1')        
+        
     else:
         print("Warning problem : unspecified dataset")
         return ()

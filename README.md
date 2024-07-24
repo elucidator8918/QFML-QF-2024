@@ -19,9 +19,11 @@ The comprehensive results section can be seen:
 | [FHE-FedQNN-CIFAR](https://github.com/elucidator8918/QFML-QF-2024/blob/main/src/FHE_FedQNN_CIFAR.ipynb) | 20            | 10              | CIFAR-10                | Yes               | 70.12%                        | 1.24    | 99.1%                 | 9389.21 sec (156.5 min)   |
 | [FHE-FedQNN-DNA](https://github.com/elucidator8918/QFML-QF-2024/blob/main/src/FHE_FedQNN_DNA.ipynb)   | 20            | 10              | Human DNA Sequence      | Yes               | 85.7%                         | 0.48    | 87.2%                 | 10822.34 sec (180.4 min)  |
 | [FHE-FedQNN-MRI](https://github.com/elucidator8918/QFML-QF-2024/blob/main/src/FHE_FedQNN_MRI.ipynb)   | 20            | 10              | Brain MRI Scan          | Yes               | 88.75%                        | 0.36    | 99.6%                 | 7309.01 sec (121.8 min)   |
+| [FHE-FedQNN-PCOS](https://github.com/elucidator8918/QFML-QF-2024/blob/main/src/FHE_FedQNN_PCOS.ipynb)   | 20            | 10              | PCOS Binary          | Yes               | 70.15%                        | 1.09    | 100%                 | 5234.40 sec (87.2 min)   |
 | [Standard-FedQNN-CIFAR](https://github.com/elucidator8918/QFML-QF-2024/blob/main/src/Standard_FedQNN_CIFAR.ipynb) | 20            | 10              | CIFAR-10                | No                | 72.16%                        | 1.202   | 97.15%                | 9090.41 sec (151.5 min)   |
 | [Standard-FedQNN-DNA](https://github.com/elucidator8918/QFML-QF-2024/blob/main/src/Standard_FedQNN_DNA.ipynb)   | 20            | 10              | Human DNA Sequence      | No                | 84.2%                         | 0.43    | 85.5%                 | 10132.53 sec (168.9 min)  |
 | [Standard-FedQNN-MRI](https://github.com/elucidator8918/QFML-QF-2024/blob/main/src/Standard_FedQNN_MRI.ipynb)   | 20            | 10              | Brain MRI Scan          | No                | 89.71%                        | 0.338   | 100%                  | 7537.57 sec (125.6 min)   |
+| [Standard-FedQNN-PCOS](https://github.com/elucidator8918/QFML-QF-2024/blob/main/src/Standard_FedQNN_PCOS.ipynb)   | 20            | 10              | PCOS Binary          | No                | 66.19%                        | 0.611   | 100%                  | 4200.41 sec (70.9 min)   |
 
 ## Repository Structure
 

@@ -16,7 +16,8 @@ NORMALIZE_DICT = {
     'breast': dict(mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225)),
     'histo': dict(mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225)),
     'MRI': dict(mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225)),
-    'DNA': None
+    'DNA': None,
+    'PCOS': dict(mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225)),
     }
 
 def read_and_prepare_data(file_path, size=6, model_name='all-MiniLM-L6-v2'):
