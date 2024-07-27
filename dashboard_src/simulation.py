@@ -18,11 +18,10 @@ def client_fn(cid: str) -> FlowerClient:
 # Pass parameters to the Strategy for server-side parameter initialization
 if __name__ == '__main__':
     # Specify client resources if you need GPU (defaults to 1 CPU and 0 GPU)
-    """
     client_resources = None
     if DEVICE.type == "cuda":
         client_resources = {"num_gpus": 1}
-    """
+    
     model_save = args.model_save
     path_yaml = args.yaml_path
     path_roc = args.roc_path
@@ -40,6 +39,6 @@ if __name__ == '__main__':
         num_clients=args.number_clients,
         config=fl.server.ServerConfig(num_rounds=args.rounds),
         strategy=strategy,
-        # client_resources=client_resources
+        client_resources=client_resources
     )
     print(f"Simulation Time = {time.time() - start_simulation} seconds")

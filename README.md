@@ -86,6 +86,9 @@ To use the quantum federated dashboard to view and run simulations, execute the 
 streamlit run dashboard.py
 ```
 
+![Streamlit Dashboard for Researchers Demo](image.png)
+
+
 ### Running Experiments
 
 Choose the appropriate notebook based on your dataset and encryption preference:
