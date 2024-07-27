@@ -60,11 +60,11 @@ with st.sidebar.expander("📁 Data and Model"):
     model_save = st.text_input("Model Save", "cifar_fl.pt")
 
 with st.sidebar.expander("🔢 Training Parameters"):
-    seed = st.number_input("Seed", 42)
+    seed = st.number_input("Seed", 0)
     num_workers = st.number_input("Number of Workers", -1)
-    max_epochs = st.number_input("Max Epochs", 5)
-    batch_size = st.number_input("Batch Size", 256)
-    length = st.number_input("Length", 256)
+    max_epochs = st.number_input("Max Epochs", 10)
+    batch_size = st.number_input("Batch Size", 32)
+    length = st.number_input("Length", 224)
     split = st.number_input("Split", 10)
     device = st.text_input("Device", "cuda")
 

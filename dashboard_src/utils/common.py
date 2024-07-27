@@ -103,7 +103,11 @@ def classes_string(name_dataset):
         classes = ('glioma', 'meningioma', 'notumor', 'pituitary')
 
     elif name_dataset == "DNA":
-        classes = ('0', '1', '2', '3', '4', '5', '6')        
+        classes = ('0', '1', '2', '3', '4', '5', '6') 
+
+    elif name_dataset == "PCOS":
+        classes = ('0', '1')        
+        
     else:
         print("Warning problem : unspecified dataset")
         return ()
@@ -248,12 +252,12 @@ def save_matrix(y_true, y_pred, path, classes):
     :param path: path to save the confusion matrix
     :param classes: list of the classes
     """
-    # To get the confusion matrix
-    cf_matrix = confusion_matrix(y_true, y_pred)
-
-    # To normalize the confusion matrix
-    cf_matrix_normalized = cf_matrix / np.sum(cf_matrix) * 10
-
+    # To get the normalized confusion matrix
+    y_true_mapped = [classes[label] for label in y_true]
+    y_pred_mapped = [classes[label] for label in y_pred]
+    # To get the normalized confusion matrix
+    cf_matrix_normalized = confusion_matrix(y_true_mapped, y_pred_mapped, labels=classes, normalize='all')
+   
     # To round up the values in the matrix
     cf_matrix_round = np.round(cf_matrix_normalized, 2)
 
