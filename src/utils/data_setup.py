@@ -4,6 +4,7 @@ Contains functionality for creating PyTorch DataLoaders for image classification
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader, random_split, TensorDataset
 from sklearn.model_selection import train_test_split
+from sklearn.utils import shuffle
 from .common import *
 
 NUM_WORKERS = os.cpu_count()
@@ -18,6 +19,7 @@ NORMALIZE_DICT = {
     'MRI': dict(mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225)),
     'DNA': None,
     'PCOS': dict(mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225)),
+    'MMF': None
     }
 
 def read_and_prepare_data(file_path, size=6, model_name='all-MiniLM-L6-v2'):
@@ -53,8 +55,72 @@ def read_and_prepare_data(file_path, size=6, model_name='all-MiniLM-L6-v2'):
     embeddings = embed_model.encode(texts, convert_to_tensor=True).cpu().numpy()
     del embed_model
     del SentenceTransformer
-    return embeddings, y_data
+    X_train, X_test, y_train, y_test = train_test_split(embeddings, y_data, test_size=0.2, random_state=seed)
+        
+    X_train = torch.tensor(X_train, dtype=torch.float32)
+    X_test = torch.tensor(X_test, dtype=torch.float32)
+    y_train = torch.tensor(y_train, dtype=torch.long)
+    y_test = torch.tensor(y_test, dtype=torch.long)
 
+    trainset = TensorDataset(X_train, y_train)
+    testset = TensorDataset(X_test, y_test)
+    return trainset, testset
+
+def preprocess_and_split_data(au_mfcc_path):
+    # Load the Audio+Vision(MP4 Video input divided into Audio and Images) data
+    with open(au_mfcc_path, 'rb') as f:
+        au_mfcc = pickle.load(f)
+
+    # Initialize lists for data and labels
+    data = []
+    labels = []
+
+    # Process the data
+    for key in au_mfcc:
+        emotion = int(key.split('-')[2]) - 1
+        labels.append(emotion)
+        data.append(au_mfcc[key])
+
+    # Convert lists to numpy arrays
+    data = np.array(data)
+    labels = np.array(labels).reshape(-1, 1)
+
+    # Concatenate data and labels
+    data = np.hstack((data, labels))
+
+    # Shuffle data
+    data = shuffle(data)
+
+    # Split data and labels
+    X = data[:, :-1]
+    y = data[:, -1].astype(int)
+
+    # One-hot encode labels
+    num_classes = np.unique(y).size
+    y_one_hot = np.zeros((y.shape[0], num_classes))
+    y_one_hot[np.arange(y.shape[0]), y] = 1
+
+    # Split into test, train, and dev sets
+    test_data = X[-181:-1]
+    test_labels = y_one_hot[-181:-1]
+    data = X[:-180]
+    labels = y_one_hot[:-180]
+    train_data = X[:1020]
+    train_labels = y_one_hot[:1020]
+    dev_data = X[1020:]
+    dev_labels = y_one_hot[1020:]
+
+    train_data_tensor = torch.tensor(train_data, dtype=torch.float32)
+    train_labels_tensor = torch.tensor(train_labels, dtype=torch.float32)
+    dev_data_tensor = torch.tensor(dev_data, dtype=torch.float32)
+    dev_labels_tensor = torch.tensor(dev_labels, dtype=torch.float32)
+    test_data_tensor = torch.tensor(test_data, dtype=torch.float32)
+    test_labels_tensor = torch.tensor(test_labels, dtype=torch.float32)
+    trainset = TensorDataset(train_data_tensor, train_labels_tensor)
+    devset = TensorDataset(dev_data_tensor, dev_labels_tensor)
+    testset = TensorDataset(test_data_tensor, test_labels_tensor)
+
+    return trainset, devset, testset
 
 def split_data_client(dataset, num_clients, seed):
     """
@@ -89,7 +155,7 @@ def load_datasets(num_clients: int, batch_size: int, resize: int, seed: int, num
     :return: the train and test data loaders
     """
     
-    list_transforms = [transforms.ToTensor(), transforms.Normalize(**NORMALIZE_DICT[dataset])] if dataset!="DNA" else None
+    list_transforms = [transforms.ToTensor(), transforms.Normalize(**NORMALIZE_DICT[dataset])] if dataset not in ["MMF","DNA"] else None
     print(dataset)
 
     if dataset == "cifar":
@@ -101,17 +167,10 @@ def load_datasets(num_clients: int, batch_size: int, resize: int, seed: int, num
         testset = datasets.CIFAR10(data_path + dataset, train=False, download=True, transform=transformer)
     
     elif dataset == "DNA":
+        trainset, testset = read_and_prepare_data(data_path + dataset + '/human.txt')        
 
-        human_X, human_y = read_and_prepare_data(data_path + dataset + '/human.txt')
-        X_train, X_test, y_train, y_test = train_test_split(human_X, human_y, test_size=0.2, random_state=seed)
-        
-        X_train = torch.tensor(X_train, dtype=torch.float32)
-        X_test = torch.tensor(X_test, dtype=torch.float32)
-        y_train = torch.tensor(y_train, dtype=torch.long)
-        y_test = torch.tensor(y_test, dtype=torch.long)
-
-        trainset = TensorDataset(X_train, y_train)
-        testset = TensorDataset(X_test, y_test)        
+    elif dataset == "MMF":        
+        trainset, valset, testset = preprocess_and_split_data(data_path + dataset + '/Audio_Vision_RAVDESS.pkl')                    
         
     else:
         if resize is not None:
@@ -124,26 +183,33 @@ def load_datasets(num_clients: int, batch_size: int, resize: int, seed: int, num
         trainset = datasets.ImageFolder(data_path + dataset + "/Training", transform=transformer)
         testset = datasets.ImageFolder(data_path + dataset + "/Testing", transform=transformer)
 
-    if dataset != "DNA":
-        print(f"The training set is created for the classes : {trainset.classes}")
-    else:
+    if dataset == "DNA":
         print("The training set is created for the classes: ('0', '1', '2', '3', '4', '5', '6')")
+    elif dataset == "MMF":
+        print("The training set is created for the classes: ('happy', 'sad', 'angry', 'fearful', 'surprise', 'disgust', 'calm', 'neutral')")        
+    else:
+        print(f"The training set is created for the classes : {trainset.classes}")        
 
     # Split training set into `num_clients` partitions to simulate different local datasets
     datasets_train = split_data_client(trainset, num_clients, seed)
-    if data_path_val and dataset != "DNA":
-        valset = datasets.ImageFolder(data_path_val, transform=transformer)
+    if dataset == "MMF":
         datasets_val = split_data_client(valset, num_clients, seed)
+    elif data_path_val and dataset != "DNA":
+        valset = datasets.ImageFolder(data_path_val, transform=transformer)
+        datasets_val = split_data_client(valset, num_clients, seed)    
 
     # Split each partition into train/val and create DataLoader
     trainloaders = []
     valloaders = []
     for i in range(num_clients):
-        if data_path_val:
+        if dataset == "MMF":
+            # if we already have a validation dataset
+            trainloaders.append(DataLoader(datasets_train[i], batch_size=batch_size, shuffle=False))
+            valloaders.append(DataLoader(datasets_val[i], batch_size=batch_size))
+        elif data_path_val:
             # if we already have a validation dataset
             trainloaders.append(DataLoader(datasets_train[i], batch_size=batch_size, shuffle=True))
             valloaders.append(DataLoader(datasets_val[i], batch_size=batch_size))
-
         else:
             len_val = int(len(datasets_train[i]) * splitter / 100)  # splitter % validation set
             len_train = len(datasets_train[i]) - len_val

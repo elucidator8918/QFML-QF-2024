@@ -107,7 +107,9 @@ def classes_string(name_dataset):
 
     elif name_dataset == "PCOS":
         classes = ('0', '1')        
-        
+
+    elif name_dataset == "MMF":
+        classes = ('happy', 'sad', 'angry', 'fearful', 'surprise', 'disgust', 'calm', 'neutral')        
     else:
         print("Warning problem : unspecified dataset")
         return ()

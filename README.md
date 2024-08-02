@@ -1,12 +1,12 @@
-# QFed+FHE: Quantum Federated Learning with Secure Fully Homomorphic Encryption (FHE)
+# Multimodal QFed+FHE: Quantum Federated Learning with Secure Fully Homomorphic Encryption (FHE)
 
 ![image-E7XxcHrEu-transformed](https://github.com/user-attachments/assets/a4edc92a-0d16-4758-867f-0466edd6af2d)
 
 ## Overview
 
-Welcome to the Quantum Federated Learning (QFL) repository for our cutting-edge project, which utilizes Secure Fully Homomorphic Encryption (FHE). This initiative, developed for the QF 2024 Hackathon, seeks to advance privacy-preserving machine learning in quantum environments.
+Welcome to the Quantum Federated Learning (QFL) repository for our cutting-edge project, which utilizes Secure Fully Homomorphic Encryption (FHE). This initiative, developed for the QF 2024 Hackathon, seeks to advance privacy-preserving multimodal machine learning in quantum environments.
 
-Quantum Federated Learning - Quantum Federated Learning (QFL) combines the principles of federated learning with the computational power of quantum computing. In a federated learning setup, multiple decentralized devices collaboratively train a model without sharing their local data. Each device trains the model on its own data and only shares the model updates. QFL takes this a step further by leveraging quantum computing to handle the complex computations involved in the training process, thereby improving efficiency and potentially unlocking new capabilities in machine learning.
+Quantum Federated Learning - Quantum Federated Learning (QFL) combines the principles of federated learning with the computational power of quantum computing. In a federated learning setup, multiple decentralized devices collaboratively train a model without sharing their local data. Each device trains the model on its own data and only shares the model updates. QFL takes this a step further by leveraging quantum computing to handle the complex computations involved in the training process, thereby improving efficiency and potentially unlocking new capabilities in machine learning. With Multimodality capabilities, the framework could handle multiple input modalities at once from various clients.
 
 Secure Fully Homomorphic Encryption - Secure Fully Homomorphic Encryption (FHE) is a form of encryption that allows computations to be performed on encrypted data without needing to decrypt it first. This ensures that sensitive data remains private and secure even while being processed. By integrating FHE into the federated learning framework, we can ensure that model updates are encrypted throughout the entire process, maintaining privacy and security across all participants.
 
@@ -38,10 +38,14 @@ The comprehensive results section can be seen:
 │   ├── utils/
 │   ├── FHE_FedQNN_CIFAR.ipynb
 │   ├── FHE_FedQNN_DNA.ipynb
+│   ├── FHE_FedQNN_MMF.ipynb
 │   ├── FHE_FedQNN_MRI.ipynb
+│   ├── FHE_FedQNN_PCOS.ipynb
 │   ├── Standard_FedQNN_CIFAR.ipynb
 │   ├── Standard_FedQNN_DNA.ipynb
-│   └── Standard_FedQNN_MRI.ipynb
+│   ├── Standard_FedQNN_MMF.ipynb
+│   ├── Standard_FedQNN_MRI.ipynb
+│   └── Standard_FedQNN_PCOS.ipynb
 ├── dashboard.py
 ├── run-cpu.sh
 ├── run-gpu.sh
@@ -107,6 +111,14 @@ Choose the appropriate notebook based on your dataset and encryption preference:
   - Notebook: `src/FHE_FedQNN_MRI.ipynb`
   - Description: This dataset contains MRI scans used for medical image analysis, particularly for detecting and diagnosing conditions based on scan data.
 
+- **PCOS Dataset:**
+  - **Notebook:** `src/FHE_FedQNN_PCOS.ipynb`
+  - **Description:** This dataset is used for analyzing Polycystic Ovary Syndrome (PCOS). It is employed for developing and assessing models aimed at detecting and diagnosing PCOS based on this data.
+
+- **RAVDESS Multimodal Dataset:**
+  - **Notebook:** `src/FHE_FedQNN_MMF.ipynb`
+  - **Description:** This dataset includes audio and visual recordings from the RAVDESS (Ryerson Audio-Visual Database of Emotional Speech and Song) project. It is used for multimodal emotion recognition and analysis, leveraging both audio and video data to develop and evaluate models for detecting and interpreting emotional expressions. 
+
 #### Standard Quantum Federated Learning
 
 - **CIFAR-10 Dataset:**
@@ -120,6 +132,14 @@ Choose the appropriate notebook based on your dataset and encryption preference:
 - **MRI Scan Dataset:**
   - Notebook: `src/Standard_FedQNN_MRI.ipynb`
   - Description: The same MRI scan dataset, used without FHE to evaluate the performance of standard federated learning models.
+
+- **PCOS Dataset:**
+  - **Notebook:** `src/Standard_FedQNN_PCOS.ipynb`
+  - **Description:** The same PCOS dataset, used without FHE to evaluate the performance of standard federated learning models.
+
+- **RAVDESS Multimodal Dataset:**
+  - **Notebook:** `src/Standard_FedQNN_MMF.ipynb`
+  - **Description:** The same RAVDESS dataset, used without FHE to evaluate the performance of standard federated learning models. 
 
 ## License
 
