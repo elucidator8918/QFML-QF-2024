@@ -4,7 +4,7 @@
 
 ## Overview
 
-Welcome to the Quantum Federated Learning (QFL) repository for our cutting-edge project, which utilizes Secure Fully Homomorphic Encryption (FHE). This initiative, developed for the QF 2024 Hackathon, seeks to advance privacy-preserving multimodal machine learning in quantum environments.
+Welcome to the Multimodal Quantum Federated Learning (MQFL) repository for our cutting-edge project, which utilizes Secure Fully Homomorphic Encryption (FHE). This initiative, developed for the QF 2024 Hackathon, seeks to advance privacy-preserving multimodal machine learning in quantum environments.
 
 Multimodal Quantum Federated Learning - MQFL combines the principles of federated learning with the computational power of quantum computing. In a federated learning setup, multiple decentralized devices collaboratively train a model without sharing their local data. Each device trains the model on its own data and only shares the model updates. MQFL takes this a step further by leveraging quantum computing to handle the complex computations involved in the training process, thereby improving efficiency and potentially unlocking new capabilities in machine learning. With Multimodality capabilities, the framework could handle multiple input modalities at once from various clients.
 
