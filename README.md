@@ -1,4 +1,4 @@
-# Multimodal QFed+FHE: Quantum Federated Learning with Secure Fully Homomorphic Encryption (FHE)
+# MQFed+FHE: Multimodal Quantum Federated Learning with Secure Fully Homomorphic Encryption (FHE)
 
 ![image-E7XxcHrEu-transformed](https://github.com/user-attachments/assets/a4edc92a-0d16-4758-867f-0466edd6af2d)
 
