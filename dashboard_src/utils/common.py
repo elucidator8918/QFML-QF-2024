@@ -109,7 +109,10 @@ def classes_string(name_dataset):
         classes = ('0', '1')        
 
     elif name_dataset == "MMF":
-        classes = ('happy', 'sad', 'angry', 'fearful', 'surprise', 'disgust', 'calm', 'neutral')        
+        classes = ('happy', 'sad', 'angry', 'fearful', 'surprise', 'disgust', 'calm', 'neutral')   
+
+    elif name_dataset == "DNA+MRI":
+        classes = (('glioma', 'meningioma', 'notumor', 'pituitary'), ('0', '1', '2', '3', '4', '5', '6'))     
     else:
         print("Warning problem : unspecified dataset")
         return ()
@@ -381,6 +384,48 @@ def save_graphs(path_save, local_epoch, results, end_file=""):
         "Epochs", "Loss",
         curve_labels=["Training loss", "Validation loss"], title="Loss curves",
         path=path_save + "Loss_curves" + end_file)
+    
+def save_graphs_multimodal(path_save, local_epoch, results, end_file=""):
+    """
+    Save the graphs in the path given in argument.
+
+    :param path_save: path to save the graphs
+    :param local_epoch: number of epochs
+    :param results: results of the model (accuracy and loss)
+    :param end_file: end of the name of the file
+    """
+    os.makedirs(path_save, exist_ok=True)  # to create folders results
+    print("save graph in ", path_save)
+    # plot training curves (train and validation)
+    plot_graph(
+        [[*range(local_epoch)]] * 2,
+        [results["train_acc_mri"], results["val_acc_mri"]],
+        "Epochs", "Accuracy (%)",
+        curve_labels=["Training accuracy", "Validation accuracy"],
+        title="Accuracy curves",
+        path=path_save + "DNA_Accuracy_curves" + end_file)
+
+    plot_graph(
+        [[*range(local_epoch)]] * 2,
+        [results["train_loss_mri"], results["val_loss_mri"]],
+        "Epochs", "Loss",
+        curve_labels=["Training loss", "Validation loss"], title="Loss curves",
+        path=path_save + "DNA_Loss_curves" + end_file)  
+
+    plot_graph(
+        [[*range(local_epoch)]] * 2,
+        [results["train_acc_dna"], results["val_acc_dna"]],
+        "Epochs", "Accuracy (%)",
+        curve_labels=["Training accuracy", "Validation accuracy"],
+        title="Accuracy curves",
+        path=path_save + "MRI_Accuracy_curves" + end_file)
+
+    plot_graph(
+        [[*range(local_epoch)]] * 2,
+        [results["train_loss_dna"], results["val_loss_dna"]],
+        "Epochs", "Loss",
+        curve_labels=["Training loss", "Validation loss"], title="Loss curves",
+        path=path_save + "MRI_Loss_curves" + end_file)    
 
 
 def plot_graph(list_xplot, list_yplot, x_label, y_label, curve_labels, title, path=None):

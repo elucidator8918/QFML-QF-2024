@@ -40,11 +40,13 @@ The comprehensive results section can be seen:
 │   ├── utils/
 │   ├── FHE_FedQNN_CIFAR.ipynb
 │   ├── FHE_FedQNN_DNA.ipynb
+│   ├── FHE_FedQNN_DNA+MRI.ipynb
 │   ├── FHE_FedQNN_MMF.ipynb
 │   ├── FHE_FedQNN_MRI.ipynb
 │   ├── FHE_FedQNN_PCOS.ipynb
 │   ├── Standard_FedQNN_CIFAR.ipynb
 │   ├── Standard_FedQNN_DNA.ipynb
+│   ├── Standard_FedQNN_DNA+MRI.ipynb
 │   ├── Standard_FedQNN_MMF.ipynb
 │   ├── Standard_FedQNN_MRI.ipynb
 │   └── Standard_FedQNN_PCOS.ipynb
@@ -121,6 +123,10 @@ Choose the appropriate notebook based on your dataset and encryption preference:
   - **Notebook:** `src/FHE_FedQNN_MMF.ipynb`
   - **Description:** This dataset includes audio and visual recordings from the RAVDESS (Ryerson Audio-Visual Database of Emotional Speech and Song) project. It is used for multimodal emotion recognition and analysis, leveraging both audio and video data to develop and evaluate models for detecting and interpreting emotional expressions. 
 
+- **DNA+MRI Multimodal Dataset:**
+  - **Notebook:** `src/FHE_FedQNN_DNA+MRI.ipynb`
+  - **Description:** It is used as a MoE with Multimodaility leveraging both DNA Sequence and MRI scans data to develop and evaluate models for detecting and interpreting tumors and dna classes.  
+
 #### Standard Quantum Federated Learning
 
 - **CIFAR-10 Dataset:**
@@ -142,6 +148,10 @@ Choose the appropriate notebook based on your dataset and encryption preference:
 - **RAVDESS Multimodal Dataset:**
   - **Notebook:** `src/Standard_FedQNN_MMF.ipynb`
   - **Description:** The same RAVDESS dataset, used without FHE to evaluate the performance of standard federated learning models. 
+
+- **DNA+MRI Multimodal Dataset:**
+  - **Notebook:** `src/Standard_FedQNN_DNA+MRI.ipynb`
+  - **Description:** It is used as a MoE with Multimodaility leveraging both DNA Sequence and MRI scans data to develop and evaluate models for detecting and interpreting tumors and dna classes.
 
 ## License
 

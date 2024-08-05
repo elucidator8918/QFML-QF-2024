@@ -28,6 +28,10 @@ Choose the appropriate notebook based on your dataset and encryption preference:
   - **Notebook:** `FHE_FedQNN_MMF.ipynb`
   - **Description:** This dataset includes audio and visual recordings from the RAVDESS (Ryerson Audio-Visual Database of Emotional Speech and Song) project. It is used for multimodal emotion recognition and analysis, leveraging both audio and video data to develop and evaluate models for detecting and interpreting emotional expressions.
 
+- **DNA+MRI Multimodal Dataset:**
+  - **Notebook:** `FHE_FedQNN_DNA+MRI.ipynb`
+  - **Description:** It is used as a MoE with Multimodaility leveraging both DNA Sequence and MRI scans data to develop and evaluate models for detecting and interpreting tumors and dna classes.
+
 ### Standard Quantum Federated Learning
 
 - **CIFAR-10 Dataset:**
@@ -50,9 +54,13 @@ Choose the appropriate notebook based on your dataset and encryption preference:
   - **Notebook:** `Standard_FedQNN_MMF.ipynb`
   - **Description:** The same RAVDESS dataset, used without FHE to evaluate the performance of standard federated learning models.    
 
+- **DNA+MRI Multimodal Dataset:**
+  - **Notebook:** `Standard_FedQNN_DNA+MRI.ipynb`
+  - **Description:** It is used as a MoE with Multimodaility leveraging both DNA Sequence and MRI scans data to develop and evaluate models for detecting and interpreting tumors and dna classes.
+
 ## Datasets
 
-Download the unimodal datasets using the following commands:
+Download the datasets using the following commands:
 
 ```bash
 # DNA Sequence Dataset
@@ -70,7 +78,9 @@ rm brain-tumor-mri-dataset.zip
 
 ## Datasets Multimodal
 
-For multimodal experiment, you will need to use the RAVDESS dataset. Follow these steps to download and prepare the dataset or just use the pickle I have created ready to be used:
+For multimodal experiment of DNA+MRI, just proceed to download the above 2 datasets.
+
+For multimodal experiment of RAVDESS/MMF, you will need to use the RAVDESS dataset. Follow these steps to download and prepare the dataset or just use the pickle I have created ready to be used:
 
 0. **Directly Use the Preprocessed Pickle File**
    - You can use the preprocessed RAVDESS data pickle file that has already been created for convenience
