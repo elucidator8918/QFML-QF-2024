@@ -2,7 +2,7 @@
 Contains functionality for creating PyTorch DataLoaders for image classification data.
 """
 from torchvision import datasets, transforms
-from torch.utils.data import DataLoader, random_split, TensorDataset
+from torch.utils.data import DataLoader, random_split, TensorDataset, Dataset
 from sklearn.model_selection import train_test_split
 from sklearn.utils import shuffle
 from .common import *
@@ -19,15 +19,37 @@ NORMALIZE_DICT = {
     'MRI': dict(mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225)),
     'DNA': None,
     'PCOS': dict(mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225)),
-    'MMF': None
+    'MMF': None,
+    'DNA+MRI' : dict(mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225))
     }
 
-def read_and_prepare_data(file_path, size=6, model_name='all-MiniLM-L6-v2'):
+class MultimodalDataset(Dataset):
+    def __init__(self, dna_dataset, mri_dataset):
+        self.dna_dataset = dna_dataset
+        self.mri_dataset = mri_dataset
+        self.length = min(len(self.dna_dataset), len(self.mri_dataset))
+        self.dna_indices = list(range(len(self.dna_dataset)))
+        self.mri_indices = list(range(len(self.mri_dataset)))
+        if len(self.dna_dataset) > self.length:
+            self.dna_indices = random.sample(self.dna_indices, self.length)
+        if len(self.mri_dataset) > self.length:
+            self.mri_indices = random.sample(self.mri_indices, self.length)
+
+    def __len__(self):
+        return self.length
+
+    def __getitem__(self, idx):
+        dna_data, dna_label = self.dna_dataset[self.dna_indices[idx]]
+        mri_data, mri_label = self.mri_dataset[self.mri_indices[idx]]
+        
+        return (mri_data, dna_data), (mri_label, dna_label)
+    
+def read_and_prepare_data(file_path, seed, size=6, model_name='all-MiniLM-L6-v2'):
     """
     Reads DNA sequence data from a text file and prepares it for modeling.
     """
     # Read data from file
-    data = pd.read_table(file_path)
+    data = pd.read_table(file_path).head(1000)
 
     # Function to extract k-mers from a sequence
     def getKmers(sequence):
@@ -167,11 +189,26 @@ def load_datasets(num_clients: int, batch_size: int, resize: int, seed: int, num
         testset = datasets.CIFAR10(data_path + dataset, train=False, download=True, transform=transformer)
     
     elif dataset == "DNA":
-        trainset, testset = read_and_prepare_data(data_path + dataset + '/human.txt')        
+        trainset, testset = read_and_prepare_data(data_path + dataset + '/human.txt', seed)        
 
     elif dataset == "MMF":        
         trainset, valset, testset = preprocess_and_split_data(data_path + dataset + '/Audio_Vision_RAVDESS.pkl')                    
-        
+    
+    elif dataset == "DNA+MRI":        
+        dataset_dna, dataset_mri = dataset.split("+")         
+        if resize is not None:
+            list_transforms = [transforms.Resize((resize, resize))] + list_transforms            
+
+        transformer = transforms.Compose(list_transforms)
+        supp_ds_store(data_path + dataset_mri)
+        supp_ds_store(data_path + dataset_mri + "/Training")
+        supp_ds_store(data_path + dataset_mri + "/Testing")
+        trainset_mri = datasets.ImageFolder(data_path + dataset_mri + "/Training", transform=transformer)
+        testset_mri = datasets.ImageFolder(data_path + dataset_mri + "/Testing", transform=transformer)
+        trainset_dna, testset_dna = read_and_prepare_data(data_path + dataset_dna + '/human.txt', seed)
+        trainset = MultimodalDataset(trainset_dna, trainset_mri)
+        testset = MultimodalDataset(testset_dna , testset_mri)
+
     else:
         if resize is not None:
             list_transforms = [transforms.Resize((resize, resize))] + list_transforms
@@ -187,6 +224,10 @@ def load_datasets(num_clients: int, batch_size: int, resize: int, seed: int, num
         print("The training set is created for the classes: ('0', '1', '2', '3', '4', '5', '6')")
     elif dataset == "MMF":
         print("The training set is created for the classes: ('happy', 'sad', 'angry', 'fearful', 'surprise', 'disgust', 'calm', 'neutral')")        
+    elif dataset == "DNA+MRI":
+        print("The training set is created for the classes: ")
+        print("('glioma', 'meningioma', 'notumor', 'pituitary')")
+        print("('0', '1', '2', '3', '4', '5', '6')")
     else:
         print(f"The training set is created for the classes : {trainset.classes}")        
 
