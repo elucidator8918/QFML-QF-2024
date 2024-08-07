@@ -49,7 +49,7 @@ def read_and_prepare_data(file_path, seed, size=6, model_name='all-MiniLM-L6-v2'
     Reads DNA sequence data from a text file and prepares it for modeling.
     """
     # Read data from file
-    data = pd.read_table(file_path).head(1000)
+    data = pd.read_table(file_path)
 
     # Function to extract k-mers from a sequence
     def getKmers(sequence):
